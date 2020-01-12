@@ -1,0 +1,1647 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%       University of Salzburg fancy beamer theme                     %
+%                                                                     %
+% Author:                                                             %
+%    Benjamin Reichenwallner                                          %
+%                      <benjamin.reichenwallner@sbg.ac.at             %
+%                                                                     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\NeedsTeXFormat{LaTeX2e}
+
+\ProvidesPackage{beamerthemeSBG}[2015/11/17]
+
+\RequirePackage{packages/sbglogo}
+\RequirePackage{packages/sbglogoen}
+\RequirePackage{sbgcolors}
+\RequirePackage{packages/voronoi}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\RequirePackage{etoolbox}
+\RequirePackage{lmodern}
+\RequirePackage{ifthen}
+\RequirePackage{adjustbox}
+
+\usetikzlibrary{shapes,arrows,shadings}
+\usetikzlibrary{fillbetween,backgrounds}
+
+\mode<presentation>
+
+
+%======================================================================
+%	OPTIONS
+%======================================================================
+
+%% color options if's
+\newif\ifbeamer@col@cyan
+\newif\ifbeamer@col@green
+\newif\ifbeamer@col@blue
+\newif\ifbeamer@col@yellow
+\newif\ifbeamer@col@red
+\newif\ifbeamer@col@orange
+
+%% style options if's
+\newif\ifbeamer@style@one
+\newif\ifbeamer@style@two
+\newif\ifbeamer@style@wave
+
+%% headerlogo options if's
+\newif\ifbeamer@headerlogo@black
+\newif\ifbeamer@headerlogo@default
+
+%% section page options if's
+\newif\ifbeamer@page@section
+\newif\ifbeamer@page@subsection
+\newif\ifbeamer@page@toc
+
+%% background options if's
+\newif\ifbeamer@bg@none
+\newif\ifbeamer@bg@logo
+
+%% FB Mathe logo options if's
+\newif\ifbeamer@fblogo
+\newif\ifbeamer@fblogotitle
+
+%% frame options if's
+\newif\ifbeamer@showwave
+\newif\ifbeamer@progbar
+\newif\ifbeamer@headcolored
+\newif\ifbeamer@frametitlecolored
+\newif\ifbeamer@frametitlegray
+\newif\ifbeamer@progbarpic
+\newif\ifbeamer@cyclist
+\newif\ifbeamer@car
+\newif\ifbeamer@football
+\newif\ifbeamer@soccer
+\newif\ifbeamer@elephant
+\newif\ifbeamer@beetle
+\newif\ifbeamer@noframenumber
+\newif\ifbeamer@nosections
+\newif\ifbeamer@nosubsections
+
+%% language options if's
+\newif\ifbeamer@language@german
+\newif\ifbeamer@language@english
+
+%% shading options if's
+\newif\ifbeamer@shading@shading
+\newif\ifbeamer@shading@none
+
+%% picture options if's
+\newif\ifbeamer@pic@sbg
+\newif\ifbeamer@pic@nawi
+\newif\ifbeamer@pic@unipark
+\newif\ifbeamer@pic@fb
+\newif\ifbeamer@pic@geom
+\newif\ifbeamer@pic@any
+\newif\ifbeamer@pic@pic
+
+%% color options
+\beamer@col@cyantrue
+\beamer@col@greenfalse
+\beamer@col@bluefalse
+\beamer@col@yellowfalse
+\beamer@col@redfalse
+\beamer@col@orangefalse
+
+%% style options
+\beamer@style@onetrue
+\beamer@style@twofalse
+\beamer@style@wavefalse
+
+%% headerlogo options
+\beamer@headerlogo@blackfalse
+\beamer@headerlogo@defaulttrue
+
+%% bglogo options
+\beamer@bg@nonetrue
+\beamer@bg@logofalse
+
+%% section page options if's
+\beamer@page@sectionfalse
+\beamer@page@subsectionfalse
+\beamer@page@tocfalse
+
+%% FB Mathe logo options
+\beamer@fblogofalse
+\beamer@fblogotitlefalse
+
+%% frame options
+\beamer@showwavefalse
+\beamer@progbarfalse
+\beamer@headcoloredfalse
+\beamer@frametitlecoloredfalse
+\beamer@frametitlegrayfalse
+\beamer@progbarpicfalse
+\beamer@cyclistfalse
+\beamer@carfalse
+\beamer@footballfalse
+\beamer@soccerfalse
+\beamer@elephantfalse
+\beamer@beetlefalse
+\beamer@noframenumberfalse
+\beamer@nosectionsfalse
+\beamer@nosubsectionsfalse
+
+%% language options
+\beamer@language@englishfalse
+\beamer@language@germantrue
+
+%% shading options
+\beamer@shading@shadingfalse
+\beamer@shading@nonetrue
+
+%% picture options
+\beamer@pic@sbgfalse
+\beamer@pic@nawifalse
+\beamer@pic@uniparkfalse
+\beamer@pic@fbfalse
+\beamer@pic@geomfalse
+\beamer@pic@anyfalse
+\beamer@pic@picfalse
+
+%% declare the various options for the package
+\DeclareOptionBeamer{alternative}{
+	\beamer@style@onefalse
+	\beamer@style@twotrue
+	\beamer@style@wavefalse
+}
+\DeclareOptionBeamer{wave}{
+	\beamer@style@onefalse
+	\beamer@style@twofalse
+	\beamer@style@wavetrue
+	\beamer@col@greentrue
+	\beamer@col@cyanfalse
+	\beamer@showwavetrue
+}
+\DeclareOptionBeamer{cyan}{
+	\beamer@col@cyantrue
+	\beamer@col@greenfalse
+	\beamer@col@bluefalse
+	\beamer@col@yellowfalse
+	\beamer@col@redfalse
+	\beamer@col@orangefalse
+}
+\DeclareOptionBeamer{green}{
+	\beamer@col@cyanfalse
+	\beamer@col@greentrue
+	\beamer@col@bluefalse
+	\beamer@col@yellowfalse
+	\beamer@col@redfalse
+	\beamer@col@orangefalse
+}
+\DeclareOptionBeamer{blue}{
+	\beamer@col@cyanfalse
+	\beamer@col@greenfalse
+	\beamer@col@bluetrue
+	\beamer@col@yellowfalse
+	\beamer@col@redfalse
+	\beamer@col@orangefalse
+}
+\DeclareOptionBeamer{yellow}{
+	\beamer@col@cyanfalse
+	\beamer@col@greenfalse
+	\beamer@col@bluefalse
+	\beamer@col@yellowtrue
+	\beamer@col@redfalse
+	\beamer@col@orangefalse
+}
+\DeclareOptionBeamer{red}{
+	\beamer@col@cyanfalse
+	\beamer@col@greenfalse
+	\beamer@col@bluefalse
+	\beamer@col@yellowfalse
+	\beamer@col@redtrue
+	\beamer@col@orangefalse
+}
+\DeclareOptionBeamer{orange}{
+	\beamer@col@cyanfalse
+	\beamer@col@greenfalse
+	\beamer@col@bluefalse
+	\beamer@col@yellowfalse
+	\beamer@col@redfalse
+	\beamer@col@orangetrue
+}
+
+\DeclareOptionBeamer{sbgpic}{
+	\beamer@pic@sbgtrue
+	\beamer@pic@nawifalse
+	\beamer@pic@uniparkfalse
+	\beamer@pic@fbfalse
+	\beamer@pic@geomfalse
+	\beamer@pic@anytrue
+	\beamer@pic@pictrue
+}
+\DeclareOptionBeamer{nawipic}{
+	\beamer@pic@sbgfalse
+	\beamer@pic@nawitrue
+	\beamer@pic@uniparkfalse
+	\beamer@pic@fbfalse
+	\beamer@pic@geomfalse
+	\beamer@pic@anytrue
+	\beamer@pic@pictrue
+}
+\DeclareOptionBeamer{uniparkpic}{
+	\beamer@pic@sbgfalse
+	\beamer@pic@nawifalse
+	\beamer@pic@uniparktrue
+	\beamer@pic@fbfalse
+	\beamer@pic@geomfalse
+	\beamer@pic@anytrue
+	\beamer@pic@pictrue
+}
+\DeclareOptionBeamer{fbpics}{
+	\beamer@pic@sbgfalse
+	\beamer@pic@nawifalse
+	\beamer@pic@uniparkfalse
+	\beamer@pic@fbtrue
+	\beamer@pic@geomfalse
+	\beamer@pic@anytrue
+	\beamer@pic@picfalse
+}
+\DeclareOptionBeamer{geom}{
+	\beamer@pic@sbgfalse
+	\beamer@pic@nawifalse
+	\beamer@pic@uniparkfalse
+	\beamer@pic@fbfalse
+	\beamer@pic@geomtrue
+	\beamer@pic@anyfalse
+	\beamer@pic@picfalse
+}
+\DeclareOptionBeamer{sectionpage}{
+	\beamer@page@sectiontrue
+}
+\DeclareOptionBeamer{subsectionpage}{
+	\beamer@page@subsectiontrue
+}
+\DeclareOptionBeamer{toc}{
+	\beamer@page@toctrue
+}
+\DeclareOptionBeamer{fblogo}{
+	\beamer@fblogotrue
+}
+\DeclareOptionBeamer{fblogotitle}{
+	\beamer@fblogotitletrue
+}
+\DeclareOptionBeamer{nowave}{
+	\beamer@showwavefalse
+}
+\DeclareOptionBeamer{progbar}{
+	\beamer@progbartrue
+}
+\DeclareOptionBeamer{headercolored}{
+	\beamer@headcoloredtrue
+}
+\DeclareOptionBeamer{frametitlegray}{
+	\beamer@frametitlegraytrue
+}
+\DeclareOptionBeamer{frametitlecolored}{
+	\beamer@frametitlecoloredtrue
+	\beamer@frametitlegrayfalse
+}
+\DeclareOptionBeamer{cyclist}{
+	\beamer@progbarpictrue
+	\beamer@cyclisttrue
+	\beamer@carfalse
+	\beamer@footballfalse
+	\beamer@soccerfalse
+	\beamer@elephantfalse
+	\beamer@beetlefalse
+}
+\DeclareOptionBeamer{car}{
+	\beamer@progbarpictrue
+	\beamer@cyclistfalse
+	\beamer@cartrue
+	\beamer@footballfalse
+	\beamer@soccerfalse
+	\beamer@elephantfalse
+	\beamer@beetlefalse
+}
+\DeclareOptionBeamer{football}{
+	\beamer@progbarpictrue
+	\beamer@cyclistfalse
+	\beamer@carfalse
+	\beamer@footballtrue
+	\beamer@soccerfalse
+	\beamer@elephantfalse
+	\beamer@beetlefalse
+}
+\DeclareOptionBeamer{soccer}{
+	\beamer@progbarpictrue
+	\beamer@cyclistfalse
+	\beamer@carfalse
+	\beamer@footballfalse
+	\beamer@soccertrue
+	\beamer@elephantfalse
+	\beamer@beetlefalse
+}
+\DeclareOptionBeamer{elephant}{
+	\beamer@progbarpictrue
+	\beamer@cyclistfalse
+	\beamer@carfalse
+	\beamer@footballfalse
+	\beamer@soccerfalse
+	\beamer@elephanttrue
+	\beamer@beetlefalse
+}
+\DeclareOptionBeamer{beetle}{
+	\beamer@progbarpictrue
+	\beamer@cyclistfalse
+	\beamer@carfalse
+	\beamer@footballfalse
+	\beamer@soccerfalse
+	\beamer@elephantfalse
+	\beamer@beetletrue
+}
+\DeclareOptionBeamer{noframenumber}{
+	\beamer@noframenumbertrue
+}
+\DeclareOptionBeamer{nosections}{
+	\beamer@nosectionstrue
+	\beamer@nosubsectionstrue
+}
+\DeclareOptionBeamer{nosubsections}{
+	\beamer@nosubsectionstrue
+}
+\DeclareOptionBeamer{headerlogoblack}{
+	\beamer@headerlogo@blacktrue
+	\beamer@headerlogo@defaultfalse
+}
+\DeclareOptionBeamer{bglogo}{
+	\beamer@bg@nonefalse
+	\beamer@bg@logotrue
+}
+\DeclareOptionBeamer{en}{
+	\beamer@language@englishtrue
+	\beamer@language@germanfalse
+}
+\DeclareOptionBeamer{shading}{
+	\beamer@shading@shadingtrue
+	\beamer@shading@nonefalse
+}
+
+%% parse the options
+\ProcessOptionsBeamer
+
+
+%======================================================================
+%	COLORS
+%======================================================================
+
+\ifbeamer@col@green
+	\colorlet{maincolor}{sbg-green}
+	
+\else
+	\ifbeamer@col@blue
+		\colorlet{maincolor}{sbg-blue}
+	
+	\else
+		\ifbeamer@col@red
+			\colorlet{maincolor}{sbg-red}
+		
+		\else
+			\ifbeamer@col@yellow
+				\colorlet{maincolor}{sbg-amber}
+			
+			\else
+				\ifbeamer@col@orange
+					\colorlet{maincolor}{orange}
+				\else
+					\colorlet{maincolor}{sbg-cyan}
+				\fi
+			\fi
+		\fi
+	\fi
+\fi
+
+
+%% primary theme color
+\ifbeamer@style@one
+	\ifbeamer@col@yellow
+		\setbeamercolor{structure}{fg=sbg-amber,bg=sbg-red} % frame color, author, title, footline
+	\else
+		\setbeamercolor{structure}{fg=maincolor,bg=white} % frame color, author, title, footline
+	\fi
+\else
+	\ifbeamer@col@yellow
+		\setbeamercolor{structure}{fg=sbg-red,bg=sbg-amber} % frame color, author, title, footline
+	\else
+		\setbeamercolor{structure}{fg=white,bg=maincolor} % frame color, author, title, footline
+	\fi
+\fi	
+
+\ifbeamer@col@yellow
+	\setbeamercolor{structure-inverted}{fg=sbg-red,bg=white}
+\else
+	\setbeamercolor{structure-inverted}{fg=maincolor,bg=white}
+\fi
+
+\ifbeamer@col@blue
+	\setbeamercolor{palette tertiary}{fg=white,bg=sbg-green!80}  % example block
+\else
+	\ifbeamer@col@yellow
+		\setbeamercolor{palette tertiary}{fg=white,bg=sbg-green}
+	\else
+		\setbeamercolor{palette tertiary}{bg=sbg-gray!50,fg=maincolor}  % example block
+	\fi
+\fi
+
+\ifbeamer@col@red
+	\setbeamercolor{sbg-second-color-inverted}{fg=white,bg=sbg-green} % alertblock
+\else
+	\setbeamercolor{sbg-second-color-inverted}{fg=white,bg=sbg-red} % alertblock
+\fi
+
+
+%======================================================================
+%	COLOR STRUCTURES
+%======================================================================
+
+\setbeamercolor{titlelike}{parent=structure-inverted}
+
+\setbeamercolor{section in toc}{parent=structure-inverted}
+\setbeamercolor{subsection in toc}{fg=black,bg=white}
+
+\setbeamercolor{block title example}{parent=palette tertiary}
+\setbeamercolor{block title alerted}{parent=sbg-second-color-inverted}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!25!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!25!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!25!bg}
+
+% colors of itemize/ in example block: fg same as bg of block title example
+\setbeamercolor*{example text}{fg=black!50!white}
+% colors of itemize/enumerate in alert block: fg same as bg of block title alerted
+\setbeamercolor*{alerted text}{use=sbg-second-color-inverted,fg=sbg-second-color-inverted.bg}
+
+\setbeamercolor{logo in head/foot}{bg={},fg=sbg-cyan}
+\setbeamercolor{frame numbers in head/foot}{parent=author in head/foot}
+
+\setbeamercolor{section in head/foot}{parent=frametitle}
+\setbeamercolor{subsection in head/foot}{parent=frametitle}
+
+\setbeamercolor{title in head/foot}{parent=author in head/foot} 
+
+\setbeamercolor{frametitle}{bg={}}
+
+
+\ifbeamer@style@one
+	\setbeamercolor{author}{fg=black} 
+	\setbeamercolor{title}{fg=structure.fg}
+	\setbeamercolor{subtitle}{fg=structure.fg}
+	\setbeamercolor{itemize item}{fg=structure.fg}
+	\setbeamercolor{item projected}{bg=structure.fg}
+	\setbeamercolor{block title}{bg=structure.fg,fg=structure.bg}
+	\setbeamercolor{author in head/foot}{fg=structure.bg,bg=structure.fg}
+\else
+	\setbeamercolor{author}{fg=white} 
+	\setbeamercolor{title}{fg=white}
+	\setbeamercolor{subtitle}{fg=white}
+	
+	\ifbeamer@style@wave
+		\setbeamercolor{itemize item}{fg=structure.bg!89!yellow}
+		\setbeamercolor{item projected}{bg=structure.bg!89!yellow}
+		\setbeamercolor{block title}{fg=structure.fg,bg=structure.bg}
+		\setbeamercolor{author in head/foot}{fg=structure.bg!89!yellow,bg={}}
+		\setbeamercolor{title in head/foot}{fg=structure.bg!89!yellow,bg={}}
+		\setbeamercolor{footline}{fg=structure.bg!89!yellow,bg={}}
+		\ifbeamer@headcolored
+			\setbeamercolor{author in head/foot}{fg=white}
+			\setbeamercolor{title in head/foot}{fg=white}
+			\setbeamercolor{frame number in head/foot}{fg=white}
+			\setbeamercolor{section in head/foot}{fg=white}
+			\setbeamercolor{subsection in head/foot}{fg=white}
+		\fi
+	\else  
+		\setbeamercolor{itemize item}{fg=structure.bg}
+		\setbeamercolor{item projected}{bg=structure.bg}
+		\setbeamercolor{block title}{parent=structure}
+		\setbeamercolor{author in head/foot}{fg=structure.bg,bg={}}
+		\setbeamercolor{title in head/foot}{fg=structure.bg,bg={}}  
+		\setbeamercolor{footline}{fg=structure.bg,bg={}}
+	\fi
+\fi
+
+\ifbeamer@col@yellow
+	\setbeamercolor{itemize item}{fg=sbg-red}
+	\setbeamercolor{item projected}{bg=sbg-red}
+	\setbeamercolor{author in head/foot}{fg=sbg-red}
+	\setbeamercolor{title in head/foot}{fg=sbg-red}
+	\setbeamercolor{section in head/foot}{fg=sbg-red}
+	\setbeamercolor{subsection in head/foot}{fg=sbg-red}  
+\fi
+
+
+%======================================================================
+%	LOGO
+%======================================================================
+
+\ifbeamer@language@english
+	\renewcommand{\sbglogogreen}[1]{\enlogo{#1}{sbg-green}{black}{white}}
+	\renewcommand{\sbglogogreenwithoutbg}[1]{\enlogowithoutbg{#1}{sbg-green}{black}}
+	\renewcommand{\sbglogoblackwithoutbg}[1]{\enlogowithoutbg{#1}{black}{black}}
+	\renewcommand{\sbglogoblack}[1]{\enlogo{#1}{black}{black}{white}}
+	\renewcommand{\sbglogoother}[1]{\enlogowithoutbg{#1}{white}{white}}
+\fi
+
+\ifbeamer@headerlogo@black
+	\savebox{\sbglogobox}{\sbglogoblackwithoutbg{0.25\paperwidth}}
+\else
+	\savebox{\sbglogobox}{\sbglogogreenwithoutbg{0.25\paperwidth}}
+\fi
+
+
+
+\titlegraphic{
+	\sbglogoother{5cm}
+}
+
+\ifbeamer@headcolored
+	\savebox{\sbglogobox}{\sbglogoother{0.25\paperwidth}}
+\fi
+
+
+%======================================================================
+%	PROGRESS BAR
+%======================================================================
+
+\makeatletter
+\def\progressbar@progressbar{} % the progress bar
+\newdimen\progressbar@pbht %progressbar height
+\newdimen\progressbar@pbwd %progressbar width
+\newdimen\progressbar@tmpdim % auxiliary dimension
+\newcount\progressbar@tmpcounta% auxiliary counter
+\newcount\progressbar@tmpcountb% auxiliary counter
+\newcount\progressbar@first % auxiliary dimension
+\newcount\progressbar@secondlast % auxiliary dimension
+\newcount\progressbar@minusone % auxiliary dimension
+
+\progressbar@pbwd=1.2\textwidth
+\progressbar@pbht=0.2ex
+
+
+\def\progressbar@progressbar{%
+	\ifthenelse{\inserttotalframenumber = 1}{}{
+		\progressbar@minusone = -1
+		\progressbar@first=2
+		\progressbar@secondlast = \inserttotalframenumber
+		\advance \progressbar@secondlast by \progressbar@minusone
+		
+		\progressbar@tmpcounta=\insertframenumber
+		\progressbar@tmpcountb=\inserttotalframenumber
+		\advance\progressbar@tmpcounta by \progressbar@minusone
+		\advance\progressbar@tmpcountb by \progressbar@minusone
+		\ifbeamer@showwave
+		\progressbar@tmpdim=.9\progressbar@pbwd
+		\else
+		\progressbar@tmpdim=\progressbar@pbwd
+		\fi
+		\ifbeamer@progbarpic
+		\progressbar@tmpdim = 0.935\progressbar@tmpdim
+		\fi
+		\multiply\progressbar@tmpdim by \progressbar@tmpcounta
+		\divide\progressbar@tmpdim by \progressbar@tmpcountb
+		
+		\begin{tikzpicture}[very thin]
+		
+		\ifbeamer@style@wave
+			\shade[left color=sbg-gray!50,right color=sbg-gray!30]
+			(0pt, 0pt) rectangle ++ (\progressbar@pbwd, \progressbar@pbht);
+		\else
+			\ifbeamer@style@one
+				\ifbeamer@frametitlegray
+					\shade[left color=sbg-gray!50,right color=sbg-gray!30]
+					(0pt, 0pt) rectangle ++ (\progressbar@pbwd, \progressbar@pbht);
+				\else
+					\shade[left color=sbg-gray!30,right color=sbg-gray!10]
+					(0pt, 0pt) rectangle ++ (\progressbar@pbwd, \progressbar@pbht);
+				\fi
+			\else
+				\fill[sbg-gray!30]
+				(0pt, 0pt) rectangle ++ (\progressbar@pbwd, \progressbar@pbht);
+			\fi
+		\fi
+		
+		\ifbeamer@style@one
+			\shade[left color=structure.fg,right color=structure.fg!50] %
+			(0pt, 0pt) rectangle ++ (\progressbar@tmpdim, \progressbar@pbht);
+		\else
+			\shade[left color=structure.bg,right color=structure.bg!50] %
+			(0pt, 0pt) rectangle ++ (\progressbar@tmpdim, \progressbar@pbht);
+		\fi	
+		
+		\ifbeamer@cyclist
+			\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+				\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[width=8mm]{progressbar_pics/cyclist_cheer.png}};
+			}{
+			\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[width=5mm]{progressbar_pics/cyclist.png}};
+		}
+		\else
+			\ifbeamer@car
+				\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+					\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[height=8mm]{progressbar_pics/car_broken.png}};
+					}{
+					\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[height=8mm]{progressbar_pics/car.png}};
+				}
+			\else
+				\ifbeamer@football
+					\ifthenelse{\c@framenumber=\progressbar@secondlast}{
+						\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[height=5mm]{progressbar_pics/football2.png}};
+						}{
+						\ifthenelse{\c@framenumber=\progressbar@first}{
+							\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[height=5mm]{progressbar_pics/football_throw.png}};
+							}{
+							\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+								\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[height=5mm]{progressbar_pics/football_cheer.png}};
+								}{
+								\node[] at (\progressbar@tmpdim, 0.7\progressbar@pbht) {\includegraphics[height=4.5mm]{progressbar_pics/football3.png}};
+							}
+						}
+					}
+				\else
+					\ifbeamer@soccer
+						\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+							\node[] at (\progressbar@tmpdim, 0.43\progressbar@pbht) {\includegraphics[height=4mm]{progressbar_pics/soccer_winning.png}};
+							}{
+								\ifthenelse{\c@framenumber=\progressbar@first}{
+									\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[height=5mm]{progressbar_pics/soccer_stand.png}};
+									}{
+									\ifthenelse{\c@framenumber=\progressbar@secondlast}{
+										\node[] at (\progressbar@tmpdim, 0.79\progressbar@pbht) {\includegraphics[height=6mm]{progressbar_pics/soccer_shot.png}};
+										}{
+										\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[height=5mm]{progressbar_pics/soccer.png}};
+									}
+								}
+							}
+					\else
+						\ifbeamer@elephant
+							\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+								\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[height=6mm]{progressbar_pics/elephant2.png}};
+							}{
+								\node[] at (\progressbar@tmpdim, 0.8\progressbar@pbht) {\includegraphics[height=6mm]{progressbar_pics/elephant.png}};
+							}
+						\else
+							\ifbeamer@beetle
+								\ifthenelse{\c@framenumber=\inserttotalframenumber}{
+									\node[] at (\progressbar@tmpdim+0.1cm, 1.3\progressbar@pbht) {\includegraphics[height=8mm]{progressbar_pics/beetle2.png}};
+								}{
+									\node[] at (\progressbar@tmpdim, 0.6\progressbar@pbht) {\includegraphics[height=4.5mm]{progressbar_pics/beetle.png}};
+								}
+							\fi
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+		\end{tikzpicture}%
+	}
+}
+
+
+%======================================================================
+%	BACKGROUND
+%======================================================================
+
+\ifbeamer@style@two
+	\usebackgroundtemplate{	
+			\begin{tikzpicture}[remember picture,overlay]
+				\fill[sbg-gray!30]
+				([yshift=192pt]current page.south west) rectangle (current page.south east);
+				\ifbeamer@bg@logo				
+					\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+				\fi
+				
+				\ifbeamer@frametitlecolored
+					\fill[left color=structure.bg!50, right color=structure.bg!30]		([yshift=-2.85cm]current page.north west) rectangle ([yshift=-1.85cm]current page.north east);
+				\fi
+				
+				\ifbeamer@progbar
+					\node[] at ([yshift=-2.85cm]current page.north) {\progressbar@progressbar};
+				\fi
+			\end{tikzpicture}	
+	}
+
+\else
+	\ifbeamer@style@wave
+		\usebackgroundtemplate{	
+			\begin{tikzpicture}[remember picture,overlay]
+			\ifbeamer@shading@none
+				\fill[sbg-gray!20]([yshift=0pt]current page.north west) rectangle (current page.south east);
+			\else
+				\shade[upper left=sbg-gray!30, lower right=sbg-gray!10]([yshift=0pt]current page.north west) rectangle (current page.south east);
+			\fi
+			
+			\ifbeamer@headcolored
+				\fill[left color=structure.bg, right color=structure.bg!50]		([yshift=-1.2cm]current page.north west) rectangle (current page.north east);
+			\fi
+			
+			\ifbeamer@frametitlecolored
+				\fill[left color=structure.bg!50, right color=structure.bg!30]		([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+			\else
+				\ifbeamer@frametitlegray
+					\fill[left color=sbg-gray!50, right color=sbg-gray!30]		([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+				\fi
+			\fi
+			
+			\ifbeamer@progbar
+				\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+			\fi
+			
+			\ifbeamer@showwave
+				\fill[bottom color=white, top color=sbg-gray!30] ([xshift=20pt]current page.south west) to [bend right=10] ([yshift=-20pt]current page.north east) -- ([yshift=-100pt]current page.north east) -- ([xshift=100pt]current page.south west) --cycle;
+				\fill[bottom color=structure.bg!40, top color=sbg-gray!20] ([xshift=90pt]current page.south west) to [bend left=2] ([yshift=-90pt]current page.north east) -- ([yshift=-120pt]current page.north east) -- ([xshift=130pt]current page.south west) --cycle;
+			\fi
+			
+			\ifbeamer@headcolored
+				\fill[left color=structure.bg, right color=structure.bg!50]		(current page.south west) rectangle ([yshift=0.33cm]current page.south east);
+			\fi
+			
+			\ifbeamer@showwave
+				\fill[black!20] ([xshift=130pt]current page.south west) to [bend left=3] ([yshift=-120pt]current page.north east) -- ([yshift=-125pt]current page.north east) to [bend right=5] ([xshift=170pt]current page.south west) --cycle;
+			\fi
+			\ifbeamer@bg@logo
+				\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+			\fi
+			\end{tikzpicture}	
+		}
+	\else
+		
+			\usebackgroundtemplate{	
+				\begin{tikzpicture}[remember picture,overlay]
+				\ifbeamer@shading@shading
+					\fill[top color=white, bottom color=structure.fg!50]
+					([yshift=30pt]current page.south west) rectangle (current page.south east);
+					\fill[top color=structure.fg!50, bottom color=structure.fg]
+					([yshift=3pt]current page.south west) rectangle (current page.south east);
+				\else
+					\fill[structure.fg]
+					([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+					
+					\ifbeamer@bg@logo
+						\fill[structure.fg]
+						([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+						\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+					\fi
+				\fi		
+				
+				\ifbeamer@frametitlecolored
+					\fill[left color=structure.fg!50, right color=structure.fg!30]		([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+				\else
+					\ifbeamer@frametitlegray
+						\fill[left color=sbg-gray!50, right color=sbg-gray!30]		([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+					\fi
+				\fi			
+				
+				\ifbeamer@progbar
+					\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+				\fi	
+				\end{tikzpicture}	
+			}
+	\fi
+\fi
+
+
+%======================================================================
+%	HEADER AND FOOTER
+%======================================================================
+
+\settoheight{\logoheight}{\usebox{\sbglogobox}}
+
+%% section navigation flush right
+\usesectionheadtemplate
+  {\hfill\insertsectionhead}
+  {\hfill\color{fg!50!bg}\insertsectionhead}
+
+\ifbeamer@fblogo
+	\setbeamertemplate{headline}
+	{%
+		\@tempdimb=0.8\logoheight
+		\advance\@tempdimb by 1.125ex%
+		\leavevmode%
+		\begin{beamercolorbox}[wd=.25\paperwidth,ht=\@tempdimb]{section in head/foot}%
+			\ifbeamer@nosections
+				\vspace{15mm}
+			\else
+				\vspace{-0.45cm}\vbox to\@tempdimb{\hfil\sf\insertsectionhead\hfil}
+			\fi
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.25\paperwidth,ht=\@tempdimb]{subsection in head/foot}%
+			\ifbeamer@nosubsections
+				\vspace{15mm}
+			\else
+				\vspace{-0.45cm}\vbox to\@tempdimb{\hfil\sf\insertsubsectionhead\hfil}
+			\fi
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=0.22\paperwidth,ht=\@tempdimb]{logo in head/foot}%
+			\vspace{-0.35cm}\vbox to\@tempdimb{\vfil\hspace{0.5cm}\includegraphics[width=2.2cm]{sbg_pics/logo_fb}\vfil}%    % remove \vfils to align logo at top
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=0.28\paperwidth,ht=\@tempdimb]{logo in head/foot}%
+			\vspace{-0.3cm}\vbox to\@tempdimb{\vfil\usebox{\sbglogobox}\vfil}%    % remove \vfils to align logo at top
+		\end{beamercolorbox}%
+		
+		\ifbeamer@nosections
+			\vspace{-2mm}
+		\fi
+		\begin{beamercolorbox}[wd=\paperwidth,ht=6ex,dp=1ex,leftskip=-.1cm]{white}%
+			
+		\end{beamercolorbox}%
+		\ifbeamer@nosections
+		\vspace{2mm}
+		\fi
+	}
+\else
+	\setbeamertemplate{headline}
+		{%
+			\@tempdimb=0.8\logoheight
+			\advance\@tempdimb by 1.125ex%
+			\leavevmode%
+			\begin{beamercolorbox}[wd=.28\paperwidth,ht=\@tempdimb]{section in head/foot}%
+				\ifbeamer@nosections\else
+					\vspace{-0.45cm}\vbox to\@tempdimb{\hfil\sf\insertsectionhead\hfil}
+				\fi
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=.28\paperwidth,ht=\@tempdimb]{subsection in head/foot}%
+				\ifbeamer@nosubsections\else
+					\vspace{-0.45cm}\vbox to\@tempdimb{\hfil\sf\insertsubsectionhead\hfil}
+				\fi
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=.16\paperwidth,ht=\@tempdimb]{subsection in head/foot}
+			\end{beamercolorbox}%
+			\begin{beamercolorbox}[wd=0.28\paperwidth,ht=\@tempdimb]{logo in head/foot}%
+				\vspace{-0.3cm}\vbox to\@tempdimb{\vfil\usebox{\sbglogobox}\vfil}%    % remove \vfils to align logo at top
+			\end{beamercolorbox}%
+			
+			\ifbeamer@nosections
+				\vspace{-2mm}
+			\fi
+			\begin{beamercolorbox}[wd=\paperwidth,ht=6ex,dp=1ex,leftskip=-.1cm]{white}%
+				
+			\end{beamercolorbox}%
+			\ifbeamer@nosections
+				\vspace{2mm}
+			\fi
+	}
+\fi
+
+
+\setbeamertemplate{footline}
+	{%
+		\leavevmode%
+		\hbox{
+%		\begin{beamercolorbox}[wd=.02\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+%		\end{beamercolorbox}%
+		%
+		\begin{beamercolorbox}[wd=.26\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+				\hspace{-2mm}\usebeamerfont{author in head/foot}\insertshortauthor
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.09\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.45\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{title in head/foot}%
+				\hspace{2cm}\usebeamerfont{title in head/foot}\insertshorttitle
+		\end{beamercolorbox}%
+		\begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{title in head/foot}%
+		\end{beamercolorbox}%
+		\ifbeamer@noframenumber	
+			\begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{frame numbers in head/foot}%
+				
+			\end{beamercolorbox}%
+		\else
+			\begin{beamercolorbox}[wd=.1\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{frame numbers in head/foot}%
+					\hfill\usebeamerfont{title in head/foot}\insertframenumber{}\,/\,\inserttotalframenumber\hspace*{2ex}
+			\end{beamercolorbox}%
+		\fi
+		}
+		\vskip0pt%
+}
+
+
+\ifbeamer@style@one
+	\ifbeamer@shading@shading	
+		\setbeamercolor{author in head/foot}{fg=structure.fg,bg={}}
+		\setbeamercolor{title in head/foot}{fg=structure.fg,bg={}}  
+		\setbeamercolor{footline}{fg=structure.fg,bg={}}
+		
+		\setbeamertemplate{footline}
+		{%
+			\leavevmode%
+			\hbox{\begin{beamercolorbox}[wd=.3\paperwidth,ht=2.5ex,dp=2.125ex,leftskip=.3cm plus1fill,rightskip=.3cm]{author in head/foot}%
+					\usebeamerfont{author in head/foot}\insertshortauthor\hspace{1cm}
+				\end{beamercolorbox}%
+				\begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{title in head/foot}%
+					\hspace{2cm}\usebeamerfont{title in head/foot}\insertshorttitle
+				\end{beamercolorbox}%
+				\begin{beamercolorbox}[wd=.2\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm plus1fil]{frame numbers in head/foot}%
+					\hfill\usebeamerfont{title in head/foot}\insertframenumber{}\,/\,\inserttotalframenumber\hspace*{2ex}
+				\end{beamercolorbox}}%
+				\vskip0pt%
+		}
+	\fi
+\fi
+
+\ifbeamer@style@two
+	\addtobeamertemplate{frametitle}{\vspace*{0.5cm}}{\vspace*{0.13cm}}
+
+		
+	\else
+		\addtobeamertemplate{frametitle}{\vspace*{-0.2cm} %0.5cm
+			
+			}{\vspace*{0.4cm}
+			
+		}
+		
+\fi
+
+%======================================================================
+%	TITLE PAGE
+%======================================================================
+
+\setbeamertemplate{title page}{%
+	\begin{tikzpicture}[remember picture,overlay]
+	\ifbeamer@style@two
+		\ifbeamer@pic@sbg
+			\node[] at ([xshift=0pt,yshift=100pt]current page.center) {\includegraphics[width=\paperwidth]{Salzburg.JPG}};
+		\else			
+			\ifbeamer@pic@nawi
+				\node[] at ([xshift=0pt,yshift=100pt]current page.center) {\includegraphics[width=\paperwidth]{sbg_pics/Nawi.jpg}};
+			\else				
+				\ifbeamer@pic@unipark
+					\node[] at ([xshift=0pt,yshift=100pt]current page.center) {\includegraphics[width=\paperwidth]{sbg_pics/Unipark.jpg}};
+				\else
+					\ifbeamer@pic@fb
+						\fill[sbg-gray!20]([yshift=43.6pt]current page.west) rectangle (current page.north east);
+						
+						\node[] at ([xshift=0pt,yshift=105pt]current page.center) {\includegraphics[height=0.45\paperheight]{sbg_pics/Seifenblase2.jpg}\hspace{0.1cm}
+							\includegraphics[height=0.33\paperheight]{sbg_pics/b_gray.jpg}\hspace{0.1cm}
+							\voronoiorig{3.3cm}
+						};
+					\else
+						\fill[white] ([xshift=0pt,yshift=45pt]current page.west) rectangle (current page.north east);
+						\node[] at ([xshift=-1.985cm,yshift=-0.685cm]current page.north east) {\usebox{\sbglogobox}};
+						
+						\ifbeamer@fblogo
+							\node[] at ([xshift=-4.8cm,yshift=-0.71cm]current page.north east) {\includegraphics[width=2.2cm]{logo_fb}};
+						\fi
+					\fi
+				\fi
+			\fi
+		\fi
+		\fill[structure.bg]([yshift=55pt]current page.west) rectangle (current page.south east);
+		\ifbeamer@bg@none
+			\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{structure.bg}};
+		\fi
+	\else\ifbeamer@style@wave
+		\ifbeamer@shading@none
+			\fill[top color=structure.bg, bottom color=structure.bg!89!yellow]([yshift=0pt]current page.north west) rectangle (current page.south east);
+		\else
+			\shade[upper left=structure.bg, lower right=structure.bg!89!yellow,upper right=structure.bg!60, lower left=structure.bg!60]([yshift=0pt]current page.north west) rectangle (current page.south east);
+		\fi
+		\ifbeamer@pic@sbg
+			\node[] at ([xshift=0pt,yshift=90pt]current page.center) {\includegraphics[width=\paperwidth]{Salzburg.JPG}};
+			
+			\ifbeamer@shading@none
+			\fill[top color=structure.bg, bottom color=structure.bg!89!yellow]([yshift=-118pt]current page.north west) rectangle (current page.south east);
+			\else
+			\shade[upper left=structure.bg, lower right=structure.bg!89!yellow,upper right=structure.bg!60, lower left=structure.bg!60]([yshift=-118pt]current page.north west) rectangle (current page.south east);
+			\fi
+		\else		
+			\ifbeamer@pic@nawi
+				\node[] at ([xshift=0pt,yshift=105pt]current page.center) {\adjustbox{trim={.0\width} {.05\height} {0.0\width} {.25\height},clip}%
+					{\includegraphics[width=\paperwidth]{sbg_pics/Nawi.jpg}}};
+			\else
+				\ifbeamer@pic@unipark
+					\node[] at ([xshift=0pt,yshift=105pt]current page.center) {\adjustbox{trim={.0\width} {.0\height} {0.0\width} {.0\height},clip}%
+						{\includegraphics[width=1.2\paperwidth]{sbg_pics/Unipark.jpg}}};
+				\else
+					\ifbeamer@pic@fb
+						\fill[sbg-gray!20]([yshift=43.6pt]current page.west) rectangle (current page.north east);
+						
+						\node[] at ([xshift=0pt,yshift=105pt]current page.center) {\includegraphics[height=0.45\paperheight]{Seifenblase2.jpg}\hspace{0.1cm}
+							\includegraphics[height=0.33\paperheight]{b_gray.jpg}\hspace{0.1cm}
+							\voronoiorig{3.3cm}
+						};
+					\fi
+				\fi
+			\fi
+		\fi
+		\ifbeamer@showwave
+			\fill[bottom color=white, top color=sbg-gray!30] ([xshift=20pt]current page.south west) to [bend right=10] ([yshift=-20pt]current page.north east) -- ([yshift=-100pt]current page.north east) -- ([xshift=100pt]current page.south west) --cycle;
+			\fill[bottom color=structure.bg!40, top color=sbg-gray!20] ([xshift=90pt]current page.south west) to [bend left=2] ([yshift=-90pt]current page.north east) -- ([yshift=-120pt]current page.north east) -- ([xshift=130pt]current page.south west) --cycle;
+			\fill[sbg-gray!30] ([xshift=130pt]current page.south west) to [bend left=3] ([yshift=-120pt]current page.north east) -- ([yshift=-125pt]current page.north east) to [bend right=5] ([xshift=170pt]current page.south west) --cycle;
+		\fi
+	\else
+		\fill[white]([yshift=2cm]current page.west) rectangle ([yshift=0.34cm]current page.north east);
+		\ifbeamer@shading@shading
+			\fill[top color=white, bottom color=structure.fg!50]
+			([yshift=30pt]current page.south west) rectangle (current page.south east);
+			\fill[top color=structure.fg!50, bottom color=structure.fg]
+			([yshift=3pt]current page.south west) rectangle (current page.south east);
+		\else
+			\fill[structure.fg](current page.south west) rectangle ([yshift=0.34cm]current page.south east);
+		\fi
+	
+		\ifbeamer@pic@pic
+			\ifbeamer@pic@sbg
+				\node[] at ([xshift=0pt,yshift=95pt]current page.center) {\includegraphics[width=\paperwidth]{Salzburg.JPG}};
+			\else
+				\ifbeamer@pic@nawi
+					\node[] at ([xshift=0pt,yshift=95pt]current page.center) {\includegraphics[width=\paperwidth]{sbg_pics/Nawi.jpg}};
+				\else
+					\ifbeamer@pic@unipark
+						\node[] at ([xshift=0pt,yshift=95pt]current page.center) {\includegraphics[width=\paperwidth]{sbg_pics/Unipark.jpg}};
+					\fi
+				\fi
+			\fi
+			\fill[white]([yshift=46pt]current page.west) rectangle (current page.south east);	
+			\ifbeamer@shading@shading
+				\fill[top color=white, bottom color=structure.fg!50]
+				([yshift=30pt]current page.south west) rectangle (current page.south east);
+				\fill[top color=structure.fg!50, bottom color=structure.fg]
+				([yshift=3pt]current page.south west) rectangle (current page.south east);
+			\else		
+				\fill[structure.fg]
+				([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+			\fi
+		\else
+			\ifbeamer@pic@fb
+				\fill[sbg-gray!20]([yshift=43.6pt]current page.west) rectangle (current page.north east);
+				
+				\node[] at ([xshift=0pt,yshift=105pt]current page.center) {\includegraphics[height=0.45\paperheight]{Seifenblase2.jpg}\hspace{0.1cm}
+					\includegraphics[height=0.33\paperheight]{b_gray.jpg}\hspace{0.1cm}
+					\voronoiorig{3.3cm}
+				};
+			\else
+				\fill[white] ([xshift=0pt,yshift=85pt]current page.west) rectangle (current page.north east);
+				\node[] at ([xshift=-1.985cm,yshift=-0.685cm]current page.north east) {\usebox{\sbglogobox}};
+				
+				\ifbeamer@fblogo
+					\node[] at ([xshift=-4.8cm,yshift=-0.71cm]current page.north east) {\includegraphics[width=2.2cm]{logo_fb}};
+				\fi
+			\fi
+		\fi
+		\ifbeamer@bg@none
+			\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{white}};
+		\fi
+	\fi\fi
+	\ifbeamer@pic@geom
+		\ifbeamer@style@two
+			\pgfmathsetmacro{\h}{-3}
+			\pgfmathsetmacro{\k}{-2}
+		\else
+			\pgfmathsetmacro{\h}{3}
+			\pgfmathsetmacro{\k}{2}
+		\fi
+			\pgfmathsetmacro{\a}{2}
+			\filldraw[structure.fg,fill=gray!20, opacity=.5](\a+0.683,\h-.683)--(\a-.233,\h-.111)--(\a-.82,\h-.122)--cycle;
+			\filldraw[structure.fg,fill=gray!20, opacity=.5](\a-.233,\h-.111)--(\a+0.372,\h+.916)--(\a-.82,\h-.122)--cycle;
+			\filldraw[structure.fg,fill=gray!20, opacity=.5](\a+0.683,\h-.683)--(\a+0.372,\h+0.916)--(\a-.233,\h-.111)--cycle;
+			
+			\pgfmathsetmacro{\b}{3}
+			\draw[structure.fg,dashed] (\b-1,0) arc (180:0:1cm and 0.3cm);
+			\draw[structure.fg,dashed] (\b,1) arc (90:-90:0.3cm and 1cm);
+			\shade[ball color=gray!20,opacity=0.5] (\b,0) circle (1cm);
+			\draw [structure.fg, opacity=.5] (\b-1,0) arc (180:360:1cm and 0.3cm);
+			\draw [structure.fg, opacity=.5] (\b,1) arc (90:270:0.3cm and 1cm);
+			\draw [structure.fg, opacity=.5] (\b,0) circle (1cm);
+			
+			\pgfmathsetmacro{\c}{6}
+			\pgfmathsetmacro{\factor}{1/sqrt(2)};
+			\coordinate [] (A) at (\c+2,\k,-2*\factor);
+			\coordinate [] (B) at (\c-2,\k,-2*\factor);
+			\coordinate [] (C) at (\c,\k+2,2*\factor);
+			\coordinate [] (D) at (\c,\k-2,2*\factor);
+			\foreach \i in {A,B,C,D}
+			\draw[structure.fg,dashed] (\c,\k)--(\i);
+			\draw[-,structure.fg, fill=gray!20, opacity=.5] (A)--(C)--(B)--(D)--cycle;
+			\draw[-,structure.fg, opacity=.5] (D)--(C);
+	\fi
+	\node[anchor=west] at ([yshift=70pt,xshift=10pt]current page.south west) (author)
+	{\parbox[t]{.6\paperwidth}{\raggedright%
+		\usebeamercolor[fg]{author}\insertauthor}
+				};
+	\node[anchor=west] at ([yshift=50pt,xshift=10pt]current page.south west) (date)
+	{\parbox[t]{.6\paperwidth}{\raggedright%
+			\usebeamercolor[fg]{author}\insertdate}
+	};
+	\ifbeamer@style@wave
+		\ifbeamer@pic@pic
+			\node[anchor=south west] 
+			at ([xshift=5pt,yshift=20pt]current page.west) (logo)
+			{\parbox[t]{.19\paperwidth}{\raggedleft%
+				\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+		\else
+			\node[anchor=south west] 
+			at ([xshift=5pt,yshift=45pt]current page.west) (logo)
+			{\parbox[t]{.19\paperwidth}{\raggedleft%
+					\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+		\fi
+	\fi		
+	\ifbeamer@pic@pic
+		\node[anchor=west] at ([yshift=-40pt,xshift=10pt]current page.west) (subtitle)
+		{\parbox[t]{.6\paperwidth}{\raggedright\usebeamercolor{subtitle}\textcolor{structure.fg}{\insertsubtitle}}};
+		\ifbeamer@showwave
+			\node[anchor=west] at ([yshift=-5pt,xshift=10pt]current page.west) (title)
+				{\parbox[t]{0.8\textwidth}{\raggedright%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\inserttitle}};
+		\else
+			\node[anchor=west] at ([yshift=-5pt,xshift=10pt]current page.west) (title)
+				{\parbox[t]{\textwidth}{\raggedright%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\inserttitle}};
+		\fi
+	\else
+		\node[anchor=west] at ([yshift=-25pt,xshift=10pt]current page.west) (subtitle)
+		{\parbox[t]{.6\paperwidth}{\raggedright\usebeamercolor{subtitle}\textcolor{structure.fg}{\insertsubtitle}}};
+		\ifbeamer@showwave
+			\node[anchor=west]
+			at ([yshift=10pt,xshift=10pt]current page.west) (title)
+			{\parbox[t]{0.8\textwidth}{\raggedright%
+					\usebeamerfont{author}\usebeamercolor[fg]{title}%
+					\LARGE\inserttitle}};
+		\else
+			\node[anchor=west]
+			at ([yshift=10pt,xshift=10pt]current page.west) (title)
+			{\parbox[t]{\textwidth}{\raggedright%
+					\usebeamerfont{author}\usebeamercolor[fg]{title}%
+					\LARGE\inserttitle}};
+		\fi
+	\fi
+	\ifbeamer@style@two
+		\ifbeamer@pic@any
+			\titlegraphic{
+				\sbglogoother{4cm}
+			}
+			\node[anchor=south west] 
+			at ([xshift=5pt,yshift=55pt]current page.west) (logo)
+			{\parbox[t]{.19\paperwidth}{\raggedleft%
+				\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+		\fi
+	\fi	
+	\ifbeamer@style@one
+		\ifbeamer@pic@any
+			\titlegraphic{
+				\sbglogoother{4cm}
+			}
+			\node[anchor=south west] 
+			at ([xshift=5pt,yshift=48pt]current page.west) (logo)
+			{\parbox[t]{.19\paperwidth}{\raggedleft%
+					\usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+		\fi
+	\fi	
+	\ifbeamer@bg@logo
+		\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+	\fi
+	
+	\ifbeamer@fblogotitle
+		\ifbeamer@style@wave
+			\fill[white] ([xshift=-3.77cm,yshift=0.35cm]current page.south east) rectangle ([xshift=-0.5cm,yshift=1.6cm]current page.south east);
+			\node[anchor=south east] 
+			at ([xshift=-0.5cm,yshift=10pt]current page.south east) (institute)
+			{\parbox[t]{.78\paperwidth}{\raggedleft%
+					\includegraphics[width=3cm]{sbg_pics/logo_fb}
+				}};
+		\else
+			\ifbeamer@style@two
+				\ifbeamer@pic@pic
+					\fill[white] ([xshift=3.75cm,yshift=0.35cm]current page.south west) rectangle ([xshift=0.48cm,yshift=1.6cm]current page.south west);
+					\node[anchor=south east] 
+					at ([xshift=3.75cm,yshift=10pt]current page.south west) (institute)
+					{\parbox[t]{.78\paperwidth}{\raggedleft%
+							\includegraphics[width=3cm]{sbg_pics/logo_fb}
+						}};
+				\fi
+			\else
+				\ifbeamer@pic@pic
+					\node[anchor=south east] 
+					at ([xshift=3.65cm,yshift=18pt]current page.south west) (institute)
+					{\parbox[t]{.78\paperwidth}{\raggedleft%
+						\includegraphics[width=3cm]{sbg_pics/logo_fb}
+					}};
+				\fi
+			\fi
+		\fi
+	\else
+		\node[anchor=south east] 
+		at ([yshift=10pt]current page.south east) (institute)
+		{\parbox[t]{.78\paperwidth}{\raggedleft%
+				\ifbeamer@style@one
+				\usebeamerfont{institute}\textcolor{sbg-gray}{\insertinstitute}
+				\else
+				\usebeamerfont{institute}\textcolor{white}{\insertinstitute}
+				\fi
+			}};
+	\fi
+	\end{tikzpicture}
+}
+
+
+%======================================================================
+%	SECTION TITLE PAGE
+%======================================================================
+
+\ifbeamer@style@two
+\setbeamertemplate{section page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\fill[structure.bg]
+		([yshift=192pt]current page.south west) rectangle (current page.south east);
+	
+	\ifbeamer@frametitlecolored
+		\fill[left color=sbg-gray!50, right color=sbg-gray!30]		([yshift=-2.85cm]current page.north west) rectangle ([yshift=-1.85cm]current page.north east);
+	\fi
+	
+	\ifbeamer@progbar
+		\node[] at ([yshift=-2.85cm]current page.north) {\progressbar@progressbar};
+	\fi
+	\node[] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogogreenwithoutbg{0.25\paperwidth}};
+	
+	\ifbeamer@bg@none
+		\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{structure.bg}};
+	\fi
+	
+	\node[anchor=west] at ([xshift=5pt,yshift=-70pt]current page.north west) (frametitle)
+	{\parbox[t]{0.8\textwidth}{\raggedright%
+			\usebeamerfont{frametitle}\textcolor{structure.bg}{
+				\ifbeamer@page@toc
+					\insertsection
+				\else
+					\inserttitle
+				\fi
+			}}};
+
+	\ifbeamer@page@toc
+		\node[anchor=west] at ([yshift=-30pt,xshift=30pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+				\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\setbeamercolor{section in toc}{fg=black}
+				\setbeamercolor{subsection in toc}{fg=black!50}
+				\setbeamercolor{section in toc shaded}{fg=structure.bg}
+				\setbeamercolor{subsection in toc shaded}{fg=structure.bg}
+				\tableofcontents[currentsection]}};
+	\else
+		\node[anchor=west] at ([yshift=-30pt,xshift=80pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\insertsection}};
+	\fi
+	\end{tikzpicture}	
+}
+
+\else
+\ifbeamer@style@wave
+\setbeamertemplate{section page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\ifbeamer@shading@none
+		\fill[top color=structure.bg, bottom color=structure.bg!89!yellow]([yshift=0pt]current page.north west) rectangle (current page.south east);
+	\else
+		\shade[upper left=structure.bg, lower right=structure.bg!89!yellow,upper right=structure.bg!60, lower left=structure.bg!60]([yshift=0pt]current page.north west) rectangle (current page.south east);
+	\fi
+		\fill[left color=sbg-gray!50, right color=sbg-gray!30]([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	
+	\ifbeamer@progbar
+		\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+	\fi
+	
+	\ifbeamer@showwave
+		\fill[bottom color=white, top color=sbg-gray!30] ([xshift=20pt]current page.south west) to [bend right=10] ([yshift=-20pt]current page.north east) -- ([yshift=-100pt]current page.north east) -- ([xshift=100pt]current page.south west) --cycle;
+		\fill[bottom color=structure.bg!40, top color=sbg-gray!20] ([xshift=90pt]current page.south west) to [bend left=2] ([yshift=-90pt]current page.north east) -- ([yshift=-120pt]current page.north east) -- ([xshift=130pt]current page.south west) --cycle;
+	\fi
+	
+	\ifbeamer@showwave
+		\fill[black!20] ([xshift=130pt]current page.south west) to [bend left=3] ([yshift=-120pt]current page.north east) -- ([yshift=-125pt]current page.north east) to [bend right=5] ([xshift=170pt]current page.south west) --cycle;
+	\fi
+	
+	\node[opacity=.3] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogoother{0.25\paperwidth}};
+	\node[anchor=west] at ([xshift=5pt,yshift=-50pt]current page.north west) (frametitle)
+		{\parbox[t]{0.8\textwidth}{\raggedright%
+				\usebeamerfont{frametitle}\textcolor{structure.bg}{
+				\ifbeamer@page@toc
+					\insertsection
+				\else
+					\inserttitle
+				\fi
+			}}};
+	
+	\ifbeamer@page@toc
+		\node[anchor=west] at ([yshift=-5pt,xshift=30pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+			\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\setbeamercolor{section in toc}{fg=black}
+			\setbeamercolor{subsection in toc}{fg=black!50}
+			\setbeamercolor{section in toc shaded}{fg=structure.bg}
+			\setbeamercolor{subsection in toc shaded}{fg=structure.bg}
+			\tableofcontents[currentsection]}};
+	\else
+		\node[anchor=west] at ([yshift=-5pt,xshift=50pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\insertsection}};
+	\fi
+	\end{tikzpicture}
+}
+\else
+
+\setbeamertemplate{section page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\ifbeamer@shading@shading
+		\fill[top color=white, bottom color=structure.fg!50]
+		([yshift=30pt]current page.south west) rectangle (current page.south east);
+		\fill[top color=structure.fg!50, bottom color=structure.fg]
+		([yshift=3pt]current page.south west) rectangle (current page.south east);
+	\else
+		\fill[structure.fg]
+		([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+	
+		\ifbeamer@bg@logo
+			\fill[structure.fg]
+			([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+			\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+		\fi
+	\fi		
+	
+	\ifbeamer@frametitlecolored
+		\fill[left color=sbg-gray!50, right color=sbg-gray!30]	([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	\else
+		\fill[left color=structure.fg!50, right color=structure.fg!30]	([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	\fi			
+	
+	\ifbeamer@progbar
+		\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+	\fi	
+	\node[] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogogreenwithoutbg{0.25\paperwidth}};
+	
+	\ifbeamer@bg@none
+	\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{structure.bg}};
+	\fi
+	
+	\node[anchor=west] at ([xshift=5pt,yshift=-50pt]current page.north west) (frametitle)
+		{\parbox[t]{0.8\textwidth}{\raggedright%
+			\usebeamerfont{frametitle}\textcolor{structure.fg}{
+				\ifbeamer@page@toc
+					\insertsection
+				\else
+					\inserttitle
+				\fi
+			}}};
+	
+	\ifbeamer@page@toc
+		\node[anchor=west] at ([yshift=-20pt,xshift=30pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+			\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\tableofcontents[currentsection]}};
+	\else
+		\node[anchor=west] at ([yshift=-20pt,xshift=80pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+			\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\LARGE\insertsection}};
+	\fi
+	\end{tikzpicture}	
+}
+\fi
+\fi
+
+\ifbeamer@page@section
+	\AtBeginSection[]{
+		{
+			\setbeamertemplate{sections/subsections in toc}[default]
+			\setbeamertemplate{footline}{}
+			\setbeamertemplate{headline}{}
+			\frame{\sectionpage}
+		}
+	}
+\fi
+
+
+%======================================================================
+%	SUBSECTION TITLE PAGE
+%======================================================================
+
+\ifbeamer@style@two
+\setbeamertemplate{subsection page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\fill[structure.bg]
+	([yshift=192pt]current page.south west) rectangle (current page.south east);
+	
+	\ifbeamer@frametitlecolored
+	\fill[left color=sbg-gray!50, right color=sbg-gray!30]		([yshift=-2.85cm]current page.north west) rectangle ([yshift=-1.85cm]current page.north east);
+	\fi
+	
+	\ifbeamer@progbar
+	\node[] at ([yshift=-2.85cm]current page.north) {\progressbar@progressbar};
+	\fi
+	\node[] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogogreenwithoutbg{0.25\paperwidth}};
+	
+	\ifbeamer@bg@none
+	\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{structure.bg}};
+	\fi
+	
+	\node[anchor=west] at ([xshift=5pt,yshift=-70pt]current page.north west) (frametitle)
+	{\parbox[t]{0.8\textwidth}{\raggedright%
+			\usebeamerfont{frametitle}\textcolor{structure.bg}{
+				\ifbeamer@page@toc
+					\insertsubsection
+				\else
+					\insertsection
+				\fi
+			}}};
+	
+	
+		\ifbeamer@page@toc
+			\node[anchor=west] at ([yshift=-30pt,xshift=30pt]current page.west) (title)
+			{\parbox[t]{0.8\textwidth}{%
+			\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\setbeamercolor{section in toc}{fg=black}
+			\setbeamercolor{subsection in toc}{fg=black!50}
+			\setbeamercolor{section in toc shaded}{fg=structure.bg}
+			\setbeamercolor{subsection in toc shaded}{fg=structure.bg}
+			\tableofcontents[currentsection,currentsubsection]}};
+		\else
+		\node[anchor=west] at ([yshift=-30pt,xshift=80pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\insertsubsection}};
+		\fi
+	\end{tikzpicture}	
+}
+
+\else
+\ifbeamer@style@wave
+\setbeamertemplate{subsection page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\ifbeamer@shading@none
+	\fill[top color=structure.bg, bottom color=structure.bg!89!yellow]([yshift=0pt]current page.north west) rectangle (current page.south east);
+	\else
+	\shade[upper left=structure.bg, lower right=structure.bg!89!yellow,upper right=structure.bg!60, lower left=structure.bg!60]([yshift=0pt]current page.north west) rectangle (current page.south east);
+	\fi
+	\fill[left color=sbg-gray!50, right color=sbg-gray!30]([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	
+	\ifbeamer@progbar
+	\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+	\fi
+	
+	\ifbeamer@showwave
+	\fill[bottom color=white, top color=sbg-gray!30] ([xshift=20pt]current page.south west) to [bend right=10] ([yshift=-20pt]current page.north east) -- ([yshift=-100pt]current page.north east) -- ([xshift=100pt]current page.south west) --cycle;
+	\fill[bottom color=structure.bg!40, top color=sbg-gray!20] ([xshift=90pt]current page.south west) to [bend left=2] ([yshift=-90pt]current page.north east) -- ([yshift=-120pt]current page.north east) -- ([xshift=130pt]current page.south west) --cycle;
+	\fi
+	
+	\ifbeamer@showwave
+	\fill[black!20] ([xshift=130pt]current page.south west) to [bend left=3] ([yshift=-120pt]current page.north east) -- ([yshift=-125pt]current page.north east) to [bend right=5] ([xshift=170pt]current page.south west) --cycle;
+	\fi
+	
+	\node[opacity=.3] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogoother{0.25\paperwidth}};
+	\node[anchor=west] at ([xshift=5pt,yshift=-50pt]current page.north west) (frametitle)
+	{\parbox[t]{0.8\textwidth}{\raggedright%
+			\usebeamerfont{frametitle}\textcolor{structure.bg}{
+				\ifbeamer@page@toc
+				\insertsubsection
+				\else
+				\insertsection
+				\fi
+			}}};
+	
+	\ifbeamer@page@toc
+	\node[anchor=west] at ([yshift=-5pt,xshift=30pt]current page.west) (title)
+	{\parbox[t]{0.8\textwidth}{%
+			\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\setbeamercolor{section in toc}{fg=black}
+			\setbeamercolor{subsection in toc}{fg=black!50}
+			\setbeamercolor{section in toc shaded}{fg=structure.bg}
+			\setbeamercolor{subsection in toc shaded}{fg=structure.bg}
+			\tableofcontents[currentsection,currentsubsection]}};
+	\else
+		\ifbeamer@showwave
+		\node[anchor=west] at ([yshift=-5pt,xshift=50pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\insertsubsection}};
+		\else
+		\node[anchor=west] at ([yshift=-5pt,xshift=50pt]current page.west) (title)
+		{\parbox[t]{\textwidth}{%
+				\usebeamerfont{author}\usebeamercolor[fg]{title}%
+				\LARGE\insertsubsection}};
+		\fi
+	\fi
+	
+	\end{tikzpicture}
+}
+\else
+
+\setbeamertemplate{subsection page}{
+	\begin{tikzpicture}[remember picture,overlay]
+	\ifbeamer@shading@shading
+	\fill[top color=white, bottom color=structure.fg!50]
+	([yshift=30pt]current page.south west) rectangle (current page.south east);
+	\fill[top color=structure.fg!50, bottom color=structure.fg]
+	([yshift=3pt]current page.south west) rectangle (current page.south east);
+	\else
+	\fill[structure.fg]
+	([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+	
+	\ifbeamer@bg@logo
+	\fill[structure.fg]
+	([yshift=9.8pt]current page.south west) rectangle (current page.south east);
+	\node[opacity=.05] at ([xshift=-90pt,yshift=60pt]current page.south east){\sbglogoblackwithoutbg{10cm}};
+	\fi
+	\fi		
+	
+	\ifbeamer@frametitlecolored
+	\fill[left color=sbg-gray!50, right color=sbg-gray!30]	([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	\else
+	\fill[left color=structure.fg!50, right color=structure.fg!30]	([yshift=-2.2cm]current page.north west) rectangle ([yshift=-1.2cm]current page.north east);
+	\fi			
+	
+	\ifbeamer@progbar
+	\node[] at ([yshift=-2.2cm]current page.north) {\progressbar@progressbar};
+	\fi	
+	\node[] at ([xshift=-56.5pt,yshift=-19.5pt]current page.north east){\sbglogogreenwithoutbg{0.25\paperwidth}};
+	
+	\ifbeamer@bg@none
+	\node[anchor=east] at ([yshift=110pt,xshift=30pt]current page.south east) {\bridge{4.5cm}{sbg-gray}{structure.bg}};
+	\fi
+	
+	\node[anchor=west] at ([xshift=5pt,yshift=-50pt]current page.north west) (frametitle)
+	{\parbox[t]{0.8\textwidth}{\raggedright%
+			\usebeamerfont{frametitle}\textcolor{structure.fg}{
+				\ifbeamer@page@toc
+				\insertsubsection
+				\else
+				\insertsection
+				\fi
+			}}};
+		
+	\ifbeamer@page@toc
+		\node[anchor=west] at ([yshift=-20pt,xshift=30pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+			\raggedright\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\tableofcontents[currentsection,currentsubsection]}};
+	\else
+		\node[anchor=west] at ([yshift=-20pt,xshift=80pt]current page.west) (title)
+		{\parbox[t]{0.8\textwidth}{%
+			\usebeamerfont{author}\usebeamercolor[fg]{title}%
+			\LARGE\insertsubsection}};
+	\fi
+	\end{tikzpicture}	
+}
+\fi
+\fi
+
+\ifbeamer@page@subsection
+\AtBeginSubsection[]{
+	{
+		\setbeamertemplate{sections/subsections in toc}[default]
+		\setbeamertemplate{footline}{}
+		\setbeamertemplate{headline}{}
+		\frame{\subsectionpage}
+	}
+}
+\fi
+
+
+%======================================================================
+%	MISCELLANEOUS SETTINGS
+%======================================================================
+\newcommand{\tocpage}{
+	\frame{
+		\frametitle{
+			\ifbeamer@language@english
+				CONTENT
+			\else
+				INHALT
+			\fi
+		}
+		\setbeamertemplate{sections/subsections in toc}[default]
+		\tableofcontents
+	}
+}
+
+%% use squares for itemize + enumerate
+\useinnertheme{rectangles}
+
+%% make blocks rounded + shadowed
+\setbeamertemplate{blocks}[rounded][shadow]
+
+%% print block titles in normal size (instead of bigger)
+\setbeamerfont{block title}{size={}}
+
+%% remove the navigation symbols
+\beamertemplatenavigationsymbolsempty
+
+%% uncovered text shall be invisible
+\setbeamercovered{invisible}
+
+%\setbeamerfont{author}{family=\bf}
+
+\setbeamerfont{title}{size=\LARGE}
+
+%\setbeamertemplate{blocks}[rounded]%[shadow=false]
+\makeatletter
+\pgfdeclareverticalshading[black,bg]{bmb@shadow}{200cm}{%
+	color(0bp)=(blue!25); color(4bp)=(black!50!bg); color(8bp)=(black!50!bg)}
+\pgfdeclareradialshading[black,bg]{bmb@shadowball}{\pgfpointorigin}{%
+	color(0bp)=(black!50!bg); color(4bp)=(blue!25)}
+\pgfdeclareradialshading[black,bg]{bmb@shadowballlarge}{\pgfpointorigin}{%
+	color(0bp)=(black!50!bg); color(4bp)=(black!50!bg); color(8bp)=(blue!25)}
+%
+\makeatother
+
+\mode
+<all>
